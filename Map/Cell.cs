@@ -8,5 +8,28 @@ namespace CosmosStrategy.Map
 {
     internal class Cell
     {
+        private Group group { get; set; }
+        private Type type { get; }
+        private Tuple<int, int> coordinates { get; }
+        public Cell(Group group, Type type, Tuple<int, int> coordinates)
+        {
+            this.group = group;
+            this.type = type;
+            this.coordinates = coordinates;
+        }
+
+    }
+
+    enum Group
+    {
+        PLAYER,
+        ENEMY,
+        NEUTRAL
+    }
+    enum Type
+    {
+        PLANETARY,
+        SPACE,
+        STAR
     }
 }
