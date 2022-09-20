@@ -22,14 +22,14 @@ namespace CosmosStrategy.Map
 
     enum Group
     {
-        PLAYER,
-        ENEMY,
-        NEUTRAL
+        Player,
+        Enemy,
+        Neutral
     }
     enum Type
     {
-        PLANETARY,
-        SPACE,
-        STAR
+        Planetary,
+        Space,
+        Star
     }
 }

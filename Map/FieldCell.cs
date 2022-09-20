@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CosmosStrategy.Units;
 
 namespace CosmosStrategy.Map
@@ -21,8 +17,8 @@ namespace CosmosStrategy.Map
         {
 
         }
-        public void removeUnit() { }
-        public Unit getUnit() { 
+        public void RemoveUnit() { }
+        public Unit GetUnit() { 
             return unit; 
         }
     }
