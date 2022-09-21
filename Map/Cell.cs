@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CosmosStrategy.Map
 {
-    internal class Cell
+    internal abstract class Cell
     {
-        private Group group { get; set; }
-        private Type type { get; }
-        private Tuple<int, int> coordinates { get; }
+        protected Group group { get; set; }
+        protected Type type { get; }
+        protected Tuple<int, int> coordinates { get; }
         public Cell(Group group, Type type, Tuple<int, int> coordinates)
         {
             this.group = group;
