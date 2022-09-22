@@ -55,6 +55,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Map\Cell.cs" />
+    <Compile Include="Map\Cluster.cs" />
     <Compile Include="Map\FieldCell.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="Map\ResourceCell.cs" />

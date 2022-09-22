@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CosmosStrategy.Map
 {
@@ -20,13 +16,14 @@ namespace CosmosStrategy.Map
 
     }
 
-    enum Group
+    public enum Group
     {
         Player,
         Enemy,
         Neutral
     }
-    enum Type
+
+    public enum Type
     {
         Planetary,
         Space,

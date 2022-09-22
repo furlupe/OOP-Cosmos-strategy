@@ -11,7 +11,7 @@
         {
             this.x = x;
             this.y = y;
-            this.radius = r;
+            radius = r;
             this.type = type;
         }
         
