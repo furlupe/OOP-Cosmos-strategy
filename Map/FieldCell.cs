@@ -3,28 +3,25 @@ using CosmosStrategy.Units;
 
 namespace CosmosStrategy.Map
 {
-    internal class FieldCell : Cell
+    internal class FieldCell : Cell, IFieldCell
     {
-        private Unit _unit;
+        private IUnit _unit;
 
-        public FieldCell(Group group, Type type, Tuple<int, int> coordinates) :
-            base(group, type, coordinates)
+        public FieldCell(Group group, Type type, int x, int y) :
+            base(group, type, x, y)
         {
         }
 
-        public bool PlaceUnit(Unit newUnit)
+        public void SetUnit(Unit unit)
         {
-            if (newUnit.stayCellType != type) return false;
-            newUnit.coordinates = coordinates;
-            _unit = newUnit;
-            return true;
+            _unit = unit;
         }
 
         public void RemoveUnit()
         {
-            _unit = null;
+            SetUnit(null);
         }
-        public Unit GetUnit() { 
+        public IUnit GetUnit() { 
             return _unit; 
         }
     }

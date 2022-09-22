@@ -2,18 +2,26 @@
 
 namespace CosmosStrategy.Map
 {
-    internal class ResourceCell : Cell
+    internal class ResourceCell : Cell, IResourceCell
     {
-        private Tuple<Resource, int> resourse { get; }
+        private Resource resource;
+        private int resourceAmount;
 
-        public ResourceCell(Group group, Tuple<int, int> coordinates, Tuple<Resource, int> resource) : 
-            base(group, Type.Planetary, coordinates)
+        public ResourceCell(Group group, int x, int y, Resource resource, int resourceAmount) : 
+            base(group, Type.Planetary, x, y)
         {
-            this.resourse = resource;
+            this.resource = resource;
+            this.resourceAmount = resourceAmount;
         }
+
+        public Tuple<Resource, int> GetResource()
+        {
+            return new Tuple<Resource, int> (resource, resourceAmount);
+        }
+        
     }
-    
-    enum Resource
+
+    public enum Resource
     {
         Gold,
         Iron,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CosmosStrategy.Units
 {
-    internal class Gunner
+    internal class Gunner : Unit
     {
     }
 }

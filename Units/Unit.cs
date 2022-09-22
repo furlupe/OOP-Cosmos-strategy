@@ -1,20 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
 using CosmosStrategy.Map;
 using Type = CosmosStrategy.Map.Type;
 
 namespace CosmosStrategy.Units
 {
-    internal abstract class Unit
+    public abstract class Unit : IUnit
     {
-        public Tuple<int, int> coordinates { get; set; }
-        public Type stayCellType { get; set; }
+        private IFieldCell currentCell;
+        protected double damage;
+        protected double health;
 
-        protected int health { get; set; }
-        protected Group group { get; set; }
+        protected List<List<bool>> movePattern;
+        protected List<List<bool>> attackPattern;
 
-        protected Unit(Group group)
+        public Unit() { }
+
+        public void Attack(IUnit target)
         {
-            this.group = group;
+            target.TakeDamage(damage);
+        }
+
+        public void Move(IFieldCell destination)
+        {
+            currentCell.RemoveUnit();
+            currentCell = destination;
+        }
+
+        public void TakeDamage(double damageTaken)
+        {
+            health -= damageTaken;
+            if (health < 0) Die();
+        }
+
+        public void Die()
+        {
+            currentCell.RemoveUnit();
+        }
+
+        public List<List<bool>> GetMovePattern()
+        {
+            return movePattern;
+        }
+
+        public List<List<bool>> GetAttackPattern()
+        {
+            return attackPattern;
         }
     }
 }

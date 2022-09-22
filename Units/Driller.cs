@@ -8,13 +8,17 @@ using Type = CosmosStrategy.Map.Type;
 
 namespace CosmosStrategy.Units
 {
-    internal class Driller : Unit
+    internal class Driller : Unit, IDriller
     {
         private int _radius = 3;
-        public Driller(Group group) : base(group)
+        public Driller(Group group) : base()
         {
             health = 10;
-            stayCellType = Type.Planetary;
+        }
+
+        public List<Tuple<Resource, int>> Drill()
+        {
+            throw new NotImplementedException();
         }
     }
 }
