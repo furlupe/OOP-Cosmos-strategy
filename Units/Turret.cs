@@ -11,6 +11,7 @@ namespace CosmosStrategy.Units
     {
         public Turret(Group group, Tuple<int, int> coordinates) : base(group, coordinates)
         {
+            health = 15;
         }
 
         public List<Tuple<int, int>> Attack()

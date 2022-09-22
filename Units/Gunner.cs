@@ -11,6 +11,7 @@ namespace CosmosStrategy.Units
     {
         public Gunner(Group group, Tuple<int, int> coordinates) : base(group, coordinates)
         {
+            health = 10;
         }
 
         public List<Tuple<int, int>> Attack()
@@ -20,7 +21,7 @@ namespace CosmosStrategy.Units
             {
                 for (int y = -3; y <= 3; y++)
                 {
-                    if (coordinates.Item1 + x >= 0 && coordinates.Item2 + y >= 0 && x * x + y * y < 9)
+                    if (coordinates.Item1 + x >= 0 && coordinates.Item2 + y >= 0 && x * x + y * y >= 8 && x * x + y * y <= 9)
                     {
                         cellsToAttack.Add(new Tuple<int, int>(x + coordinates.Item1, y + coordinates.Item2));
                     }

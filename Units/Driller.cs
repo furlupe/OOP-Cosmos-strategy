@@ -15,7 +15,7 @@ namespace CosmosStrategy.Units
         public Driller(Group group, Tuple<int, int> coordinates, int radius) : base(group, coordinates)
         {
             _radius = radius;
-            health = 10;
+            health = 5;
             stayCellType = Type.Planetary;
         }
 
@@ -26,7 +26,7 @@ namespace CosmosStrategy.Units
             {
                 for (int y = -_radius; y <= _radius; y++)
                 {
-                    if (coordinates.Item1 + x >= 0 && coordinates.Item2 + y >= 0 && x * x + y * y < _radius)
+                    if (coordinates.Item1 + x >= 0 && coordinates.Item2 + y >= 0 && x * x + y * y < _radius * _radius)
                     {
                         cellsToDig.Add(new Tuple<int, int>(x + coordinates.Item1, y + coordinates.Item2));
                     }
