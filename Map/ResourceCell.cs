@@ -6,8 +6,8 @@ namespace CosmosStrategy.Map
     {
         private Tuple<Resource, int> resourse { get; }
 
-        public ResourceCell(Group @group, Type type, Tuple<int, int> coordinates, Tuple<Resource, int> resource) : 
-            base(@group, type, coordinates)
+        public ResourceCell(Group group, Tuple<int, int> coordinates, Tuple<Resource, int> resource) : 
+            base(group, Type.Planetary, coordinates)
         {
             this.resourse = resource;
         }

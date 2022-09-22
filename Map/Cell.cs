@@ -5,7 +5,7 @@ namespace CosmosStrategy.Map
     internal abstract class Cell
     {
         protected Group group { get; set; }
-        protected Type type { get; }
+        public Type type;
         protected Tuple<int, int> coordinates { get; }
         public Cell(Group group, Type type, Tuple<int, int> coordinates)
         {
