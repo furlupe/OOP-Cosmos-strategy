@@ -24,21 +24,18 @@ namespace CosmosStrategy.Map
             
         }
 
-        private void createCluster(Tuple<int, int> center, int radius, Type type)
+        private void CreateCluster(Tuple<int, int> center, int radius, Type type)
         {
-            
         }
 
-        private int distanceBetween(Cluster clusterFst, Cluster clusterSnd)
+        private int DistanceBetween(Cluster clusterFst, Cluster clusterSnd)
         {
-            return 0;
+            return (int) Math.Floor(
+                Math.Sqrt(
+                    Math.Pow(clusterFst.X - clusterSnd.X, 2) + Math.Pow(clusterFst.Y - clusterSnd.Y, 2)
+                )
+            );
         }
     }
-
-    internal struct Cluster
-    {
-        public int x;
-        public int y;
-        public int radius;
-    }
+    
 }
