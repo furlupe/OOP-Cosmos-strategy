@@ -2,8 +2,18 @@
 {
     public struct Cluster
     {
-        public int X;
-        public int Y;
-        public int Radius;
+        public int x;
+        public int y;
+        public int radius;
+        public Type type;
+
+        public Cluster(int x, int y, int r, Type type)
+        {
+            this.x = x;
+            this.y = y;
+            this.radius = r;
+            this.type = type;
+        }
+        
     }
 }
