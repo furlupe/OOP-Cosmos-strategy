@@ -13,9 +13,20 @@ namespace CosmosStrategy.Units
         {
         }
 
-        public List<Tuple<int, int>> Attack(Tuple<int, int> coordinates)
+        public List<Tuple<int, int>> Attack()
         {
-            throw new NotImplementedException();
+            List<Tuple<int, int>> cellsToAttack = new List<Tuple<int, int>>();
+            for (int x = -3; x <= 3; x++)
+            {
+                for (int y = -3; y <= 3; y++)
+                {
+                    if (coordinates.Item1 + x >= 0 && coordinates.Item2 + y >= 0 && Math.Max(Math.Abs(x), Math.Abs(y)) == 3)
+                    {
+                        cellsToAttack.Add(new Tuple<int, int>(x + coordinates.Item1, y + coordinates.Item2));
+                    }
+                }
+            }
+            return cellsToAttack;
         }
     }
 }

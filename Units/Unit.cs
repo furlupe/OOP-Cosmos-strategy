@@ -6,9 +6,9 @@ namespace CosmosStrategy.Units
 {
     internal abstract class Unit
     {
-        private int health { get; set; }
+        public int health = 10;
         public Type stayCellType { get; set; }
-        private Group group { get; set; }
+        public Group group { get; protected set; }
         public Tuple<int, int> coordinates { get; set; }
 
         protected Unit(Group group, Tuple<int, int> coordinates)

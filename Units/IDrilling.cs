@@ -9,6 +9,6 @@ namespace CosmosStrategy.Units
 {
     internal interface IDrilling
     {
-        List<Tuple<Resource, int>> Drill(Tuple<int, int> coordinates);
+        List<Tuple<int, int>> Drill();
     }
 }

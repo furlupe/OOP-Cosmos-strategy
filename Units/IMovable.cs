@@ -8,6 +8,6 @@ namespace CosmosStrategy.Units
 {
     internal interface IMovable
     {
-        List<Tuple<int, int>> Move(Tuple<int, int> coordinates);
+        List<Tuple<int, int>> Move();
     }
 }
