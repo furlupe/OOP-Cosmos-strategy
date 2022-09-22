@@ -5,21 +5,27 @@ namespace CosmosStrategy.Map
 {
     internal class FieldCell : Cell
     {
-        private Unit unit;
+        private Unit _unit;
 
-        public FieldCell(Group group, Type type, Tuple<int, int> coordinates, Unit unit) : 
+        public FieldCell(Group group, Type type, Tuple<int, int> coordinates) :
             base(group, type, coordinates)
         {
-            this.unit = unit;
         }
 
-        public void PlaceUnit(Unit unit)
+        public bool PlaceUnit(Unit newUnit)
         {
-
+            if (newUnit.stayCellType != type) return false;
+            newUnit.coordinates = coordinates;
+            _unit = newUnit;
+            return true;
         }
-        public void RemoveUnit() { }
+
+        public void RemoveUnit()
+        {
+            _unit = null;
+        }
         public Unit GetUnit() { 
-            return unit; 
+            return _unit; 
         }
     }
 }
