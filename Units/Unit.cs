@@ -6,15 +6,15 @@ namespace CosmosStrategy.Units
 {
     internal abstract class Unit
     {
-        public Tuple<int, int> coordinates { get; set; }
+        private int health { get; set; }
         public Type stayCellType { get; set; }
+        private Group group { get; set; }
+        public Tuple<int, int> coordinates { get; set; }
 
-        protected int health { get; set; }
-        protected Group group { get; set; }
-
-        protected Unit(Group group)
+        protected Unit(Group group, Tuple<int, int> coordinates)
         {
             this.group = group;
+            this.coordinates = coordinates;
         }
     }
 }

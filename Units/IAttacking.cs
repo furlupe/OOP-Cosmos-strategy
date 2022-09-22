@@ -8,5 +8,6 @@ namespace CosmosStrategy.Units
 {
     internal interface IAttacking
     {
+        List<Tuple<int, int>> Attack(Tuple<int, int> coordinates);
     }
 }
