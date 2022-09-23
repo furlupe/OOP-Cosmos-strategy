@@ -3,8 +3,10 @@ using CosmosStrategy.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Type = CosmosStrategy.Map.Type;
 
 namespace CosmosStrategy.Core
 {
@@ -18,7 +20,7 @@ namespace CosmosStrategy.Core
         private List<IDriller> drillers = new List<IDriller>();
         private IUnit selectedUnit;
 
-        public GameManager()
+        public GameManager(int mapWidth, int mapHeight)
         {
             foreach (var item in Enum.GetValues(typeof(Resource)))
             {
@@ -55,7 +57,7 @@ namespace CosmosStrategy.Core
                 { Resource.Gold, 5 }
             });
             }
-            map = new Map.Map(800, 600, new CellFactory());
+            map = new Map.Map(mapWidth, mapHeight, new CellFactory());
         }
 
         public void AddResources()
@@ -75,17 +77,42 @@ namespace CosmosStrategy.Core
         public void CreateUnit(int id, int x, int y)
         {
             var cell = map.GetCellAt(x, y);
-            if (!(cell is IFieldCell))
+
+            if (!CheckIfCanSpawn(id, cell))
             {
-                Console.WriteLine("not a field cell");
+                Console.WriteLine("can't place unit");
                 return;
             }
+                        
             IFieldCell _cell = cell as IFieldCell;
-            uf.SpawnUnit(id, _cell);
-            if (_cell.GetUnit() is IDriller)
+            var unit = uf.CreateUnit(id);
+            _cell.SetUnit(unit);
+            unit.SetCell(_cell);
+
+            if (unit is IDriller)
             {
-                drillers.Add(_cell.GetUnit() as IDriller);
+                if (_cell.GetCellType() == Type.Space)
+                {
+                    _cell.RemoveUnit();
+                    return;
+                }
+                var driller = unit as IDriller;
+                var range = driller.GetRange();
+                var (cx, cy) = _cell.GetCellCoords();
+                for (int i = -range; i <= range; i++)
+                {
+                    for (int j = -range; j <= range; j++)
+                    {
+                        var c = map.GetCellAt(Math.Max(i + cx, 0), Math.Max(j + cy, 0));
+                        if (c is IResourceCell)
+                        {
+                            driller.AddResourceCell(c as IResourceCell);
+                        }
+                    }
+                }
+                drillers.Add(driller);
             }
+            SpendResources(id);
         }
         public void ShowPattern(int x, int y, bool isAttack)
         {
@@ -131,5 +158,49 @@ namespace CosmosStrategy.Core
             selectedUnit = null;
         }
 
+        public void PrintMap()
+        {
+            var (w, h) = map.GetMapSize();
+            for (int x = 0; x < w; x++)
+            {
+                for (int y = 0; y < h; y++)
+                {
+                    char s;
+                    switch (map.GetCellAt(x, y).GetCellType())
+                    {
+                        case Type.Planetary:
+                            s = '@';
+                            break;
+                        case Type.Star:
+                            s = '*';
+                            break;
+                        case Type.Space:
+                            s = ' ';
+                            break;
+                        default:
+                            s = ' ';
+                            break;
+                    }
+                    Console.Write(s + "   ");
+                }
+                Console.Write('\n');
+            }
+        }
+
+        private void SpendResources(int id)
+        {
+            foreach (var res in unitsPrices[id])
+            {
+                totalResources[res.Key] -= res.Value;
+            }
+        }
+
+        private bool CheckIfCanSpawn(int id, ICell cell)
+        {
+            return (totalResources.Where(x => unitsPrices[id].Keys.Contains(x.Key))
+                                .All(x => x.Value >= unitsPrices[id][x.Key])
+                                && cell is IFieldCell && cell.GetCellType() != Type.Star);
+
+        }
     }
 }

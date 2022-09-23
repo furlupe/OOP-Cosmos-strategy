@@ -8,5 +8,6 @@ namespace CosmosStrategy.Units
     {
         Dictionary<Resource, int> Drill();
         int GetRange();
+        void AddResourceCell(IResourceCell cell);
     }
 }

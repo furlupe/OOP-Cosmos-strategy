@@ -17,36 +17,20 @@ namespace CosmosStrategy.Units
          * 3    Turret
          */
         //Передается только юнит, который может быть поставлен на свою клетку
-        public void SpawnUnit(int id, IFieldCell cell)
+        public IUnit CreateUnit(int id)
         {
             switch (id)
             {
                 case 0:
-                    throw new Exception("No nearby cells were given. Driller must have nearby cells");
+                    return new Driller();
                 case 1:
-                    cell.SetUnit(new Gunner(cell));
-                    break;
+                    return new Gunner();
                 case 2:
-                    cell.SetUnit(new Swordsman(cell));
-                    break;
+                    return new Swordsman();
                 case 3:
-                    cell.SetUnit(new Turret(cell));
-                    break;
+                    return new Turret();
                 default:
                     throw new Exception("Incorrect Unit ID");
-
-            }
-        }
-
-        public void SpawnUnit(int id, IFieldCell cell, List<ICell> cells)
-        {
-            switch (id)
-            {
-                case 0:
-                    cell.SetUnit(new Driller(cell, cells));
-                    break;
-                default:
-                    throw new Exception("Not a driller in ID field");
             }
         }
     }

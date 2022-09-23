@@ -6,28 +6,18 @@ namespace CosmosStrategy.Map
 {
     internal class Map
     {
-        private int width;
-        private int height;
-        private ICellFactory factory;
-        private List<Cluster> clusters = new List<Cluster>();
+        private readonly int width;
+        private readonly int height;
+        private readonly ICellFactory factory;
+        private readonly List<Cluster> clusters = new List<Cluster>();
         private const int MinDistanceBetween = 10;
-        private List<List<ICell>> map = new List<List<ICell>>();
-
-        private const int RADIUS = 10; // макс. радиус кластера
+        private readonly List<List<ICell>> map = new List<List<ICell>>();
+        private readonly Random rand = new Random();
+        private const int MAX_RADIUS = 30; // макс. радиус кластера
+        private const int MIN_RADIUS = 5; // макс. радиус кластера
         private const double PLANET_PROBABILITY = 0.8; // вероятность появления планеты
         private const double RESOURCE_SPAWN_PROBABILITY = 0.3; // вероятность спавна ресурса на клетке
-        private const int RESOURCE_MAX_AMOUNT = 10;
 
-        // верхние пределы вероятностей для каждого ресурса
-        private static readonly Dictionary<Resource, double> RESOURCES_PROBABILITIES_UPPERBOUNDS = new Dictionary<Resource, double>()
-        {
-            {Resource.Gold, 0.16},
-            {Resource.Iron, 0.32},
-            {Resource.Oil, 0.48},
-            {Resource.Organics, 0.64},
-            {Resource.Silver, 0.80},
-            {Resource.Cum, 1.00}
-        };
 
 
         public Map(int width, int height, ICellFactory factory)
@@ -41,7 +31,7 @@ namespace CosmosStrategy.Map
                 map.Add(new List<ICell>());
                 for (var y = 0; y < height; y++)
                 {
-                    map[y].Add(factory.CreateFieldCell(
+                    map[x].Add(factory.CreateFieldCell(
                         Group.Neutral,
                         Type.Space,
                         x,
@@ -58,14 +48,19 @@ namespace CosmosStrategy.Map
             return map[x][y];
         }
 
+        public (int, int) GetMapSize()
+        {
+            return (width, height);
+        }
+
         private void FillWithClusters()
         {
-            var rand = new Random();
             var planetsAmount = rand.Next(4, 7); // кол-во планет на карте
             while (planetsAmount > 0) // Добавление кластеров 
             {
-                var (y, x) = (rand.Next(0, height), rand.Next(0, width));
-                var radius = rand.Next(3, RADIUS);
+                var x = rand.Next(MAX_RADIUS + 1, width - MAX_RADIUS - 1);
+                var y = rand.Next(MAX_RADIUS + 1, height - MAX_RADIUS - 1);
+                var radius = rand.Next(MIN_RADIUS, MAX_RADIUS);
 
                 var isPlacable = true;
                 foreach (var c in clusters) if (isPlacable)
@@ -89,14 +84,17 @@ namespace CosmosStrategy.Map
                 {
                     for (var cellX = -1 * radius; cellX <= radius; cellX++)
                     {
-                        if (DistanceBetweenСenters(currentCluster, cellY + y, cellX + x) > radius) continue; // если клетка не внутри радиуса кластера - пропускаем
-
-                        map[x][y].SetCellType(t);
+                        var dist = DistanceBetweenСenters(currentCluster, cellX + x, cellY + y);
+                        if (dist >= radius)
+                        {
+                            continue; // если клетка не внутри радиуса кластера - пропускаем
+                        }
+                        map[cellX + x][cellY + y].SetCellType(t);
                         if (t == Type.Star ||
                             rand.NextDouble() > RESOURCE_SPAWN_PROBABILITY ||
                             cellX == 0 && cellY == 0) continue;
 
-                        AddResource(x, y); // спавним ресурс на клетке
+                        AddResource(cellX + x, cellY + y); // спавним ресурс на клетке
                     }
                 }
             }
@@ -106,31 +104,9 @@ namespace CosmosStrategy.Map
         {
             map[x][y] = factory.CreateResourceCell(
                 Group.Neutral,
-                y,
                 x,
-                ChooseResource(),
-                new Random().Next(1, RESOURCE_MAX_AMOUNT)
+                y
                 );
-        }
-
-        private Resource ChooseResource()
-        {
-            var whichResourceProb = new Random().NextDouble();
-            var prevProb = 0.0;
-            var res = Resource.Gold;
-
-            foreach (var item in RESOURCES_PROBABILITIES_UPPERBOUNDS)
-            {
-                if (prevProb < whichResourceProb && whichResourceProb < item.Value)
-                {
-                    res = item.Key;
-                    break;
-                }
-
-                prevProb = item.Value;
-            }
-
-            return res;
         }
 
         private int DistanceBetweenСenters(Cluster clusterFst, int x, int y)

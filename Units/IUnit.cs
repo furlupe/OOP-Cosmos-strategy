@@ -8,6 +8,7 @@ namespace CosmosStrategy.Units
         void Attack(IUnit target);
         void Move(IFieldCell destination);
         void TakeDamage(double damage);
+        void SetCell(IFieldCell cell);
         void Die();
 
         int[,] GetMovePattern();

@@ -9,7 +9,7 @@ namespace CosmosStrategy.Units
 {
     internal class Gunner : Unit
     {
-        public Gunner(IFieldCell cell) : base(cell)
+        public Gunner() : base()
         {
             health = 10;
             damage = 2;

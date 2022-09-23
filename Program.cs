@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CosmosStrategy.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,12 +12,20 @@ namespace CosmosStrategy
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        [STAThread]
+
         static void Main()
         {
-            Application.EnableVisualStyles();
+            /*Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form1());*/
+            GameManager gm = new GameManager(200, 200);
+            //gm.PrintMap();
+            gm.CreateUnit(Int32.Parse(Console.ReadLine()), Int32.Parse(Console.ReadLine()), Int32.Parse(Console.ReadLine()));
+            gm.AddResources();
+            gm.CreateUnit(Int32.Parse(Console.ReadLine()), Int32.Parse(Console.ReadLine()), Int32.Parse(Console.ReadLine()));
+            gm.ShowPattern(Int32.Parse(Console.ReadLine()), Int32.Parse(Console.ReadLine()), true);
+            gm.ShowPattern(Int32.Parse(Console.ReadLine()), Int32.Parse(Console.ReadLine()), false);
+            gm.AttackSelected(Int32.Parse(Console.ReadLine()), Int32.Parse(Console.ReadLine()));
         }
     }
 }

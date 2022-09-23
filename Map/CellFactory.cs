@@ -1,15 +1,31 @@
-﻿namespace CosmosStrategy.Map
+﻿using System;
+using System.Collections.Generic;
+
+namespace CosmosStrategy.Map
 {
     public class CellFactory : ICellFactory
     {
-        public IResourceCell CreateResourceCell(Group group, int x, int y, Resource resource, int resourceAmount)
+        private const int RESOURCE_MAX_AMOUNT = 10;
+        private readonly Random rand = new Random();
+        // верхние пределы вероятностей для каждого ресурса
+        private static readonly Dictionary<Resource, double> RESOURCES_PROBABILITIES_UPPERBOUNDS = new Dictionary<Resource, double>()
+        {
+            {Resource.Gold, 0.16},
+            {Resource.Iron, 0.32},
+            {Resource.Oil, 0.48},
+            {Resource.Organics, 0.64},
+            {Resource.Silver, 0.80},
+            {Resource.Cum, 1.00}
+        };
+
+        public IResourceCell CreateResourceCell(Group group, int x, int y)
         {
             return new ResourceCell(
                 group,
                 x,
                 y,
-                resource,
-                resourceAmount
+                ChooseResource(),
+                rand.Next(1, RESOURCE_MAX_AMOUNT)
             );
         }
 
@@ -21,6 +37,26 @@
                 x,
                 y
             );
+        }
+
+        private Resource ChooseResource()
+        {
+            var whichResourceProb = rand.NextDouble();
+            var prevProb = 0.0;
+            var res = Resource.Gold;
+
+            foreach (var item in RESOURCES_PROBABILITIES_UPPERBOUNDS)
+            {
+                if (prevProb < whichResourceProb && whichResourceProb < item.Value)
+                {
+                    res = item.Key;
+                    break;
+                }
+
+                prevProb = item.Value;
+            }
+
+            return res;
         }
     }
 }

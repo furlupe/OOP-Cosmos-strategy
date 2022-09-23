@@ -9,7 +9,7 @@ namespace CosmosStrategy.Units
 {
     internal class Swordsman : Unit
     {
-        public Swordsman(IFieldCell cell) : base(cell)
+        public Swordsman() : base()
         {
             health = 7;
             damage = 5;

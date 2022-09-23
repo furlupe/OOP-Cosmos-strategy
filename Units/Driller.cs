@@ -12,14 +12,12 @@ namespace CosmosStrategy.Units
     {
         private int _range = 3;
         private List<IResourceCell> nearbyResourceCells;
-        public Driller(IFieldCell cell, List<ICell> nearbyCells) : base(cell)
+        public Driller() : base()
         {
+            nearbyResourceCells = new List<IResourceCell>();
             attackPattern = null;
             movePattern = null;
             health = 10;
-            nearbyResourceCells = (List<IResourceCell>)nearbyCells
-                        .Where(cell => cell is IResourceCell)
-                        .Select(cell => (IResourceCell)cell);
         }
 
         public Dictionary<Resource, int> Drill()
@@ -40,6 +38,14 @@ namespace CosmosStrategy.Units
         public int GetRange()
         {
             return _range;
+        }
+
+        public void AddResourceCell(IResourceCell cell)
+        {
+            if (!nearbyResourceCells.Contains(cell))
+            {
+                nearbyResourceCells.Add(cell);
+            }
         }
     }
 }
