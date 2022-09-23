@@ -8,5 +8,10 @@ namespace CosmosStrategy.Units
 {
     internal class Gunner : Unit
     {
+        public Gunner()
+        {
+            health = 10;
+            damage = 2;
+        }
     }
 }

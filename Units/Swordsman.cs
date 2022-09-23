@@ -8,5 +8,10 @@ namespace CosmosStrategy.Units
 {
     internal class Swordsman : Unit
     {
+        public Swordsman()
+        {
+            health = 7;
+            damage = 5;
+        }
     }
 }
