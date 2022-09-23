@@ -17,7 +17,7 @@ namespace CosmosStrategy.Map
         private const double PLANET_PROBABILITY = 0.8; // вероятность появления планеты
         private const double RESOURCE_SPAWN_PROBABILITY = 0.3; // вероятность спавна ресурса на клетке
         private const int RESOURCE_MAX_AMOUNT = 10;
-        
+
         // верхние пределы вероятностей для каждого ресурса
         private static readonly Dictionary<Resource, double> RESOURCES_PROBABILITIES_UPPERBOUNDS = new Dictionary<Resource, double>()
         {
@@ -42,7 +42,7 @@ namespace CosmosStrategy.Map
                 for (var y = 0; y < height; y++)
                 {
                     map[y].Add(factory.CreateFieldCell(
-                        Group.Neutral, 
+                        Group.Neutral,
                         Type.Space,
                         x,
                         y
@@ -53,6 +53,11 @@ namespace CosmosStrategy.Map
             FillWithClusters();
         }
 
+        public ICell GetCellAt(int x, int y)
+        {
+            return map[x][y];
+        }
+
         private void FillWithClusters()
         {
             var rand = new Random();
@@ -61,32 +66,32 @@ namespace CosmosStrategy.Map
             {
                 var (y, x) = (rand.Next(0, height), rand.Next(0, width));
                 var radius = rand.Next(3, RADIUS);
-                
+
                 var isPlacable = true;
                 foreach (var c in clusters) if (isPlacable)
-                {
-                    // проверяем, если созданные координаты и радиус позволяют создать планету
-                    isPlacable = DistanceBetweenСenters(c, x, y) - radius >= MinDistanceBetween + c.radius;
-                }
-                
+                    {
+                        // проверяем, если созданные координаты и радиус позволяют создать планету
+                        isPlacable = DistanceBetweenСenters(c, x, y) - radius >= MinDistanceBetween + c.radius;
+                    }
+
                 if (!isPlacable) continue;
                 planetsAmount--;
-                
+
                 var t = (rand.NextDouble() <= PLANET_PROBABILITY) ? Type.Planetary : Type.Star; // определяем тип кластера (с вер. 80% будет планета)
-                
+
                 var currentCluster = new Cluster(x, y, radius, t);
                 clusters.Add(
                     currentCluster
                 ); // добавляем кластер в список оных
-                
+
                 // меняем карту и присваиваем типы
                 for (var cellY = -1 * radius; cellY <= radius; cellY++)
                 {
                     for (var cellX = -1 * radius; cellX <= radius; cellX++)
                     {
                         if (DistanceBetweenСenters(currentCluster, cellY + y, cellX + x) > radius) continue; // если клетка не внутри радиуса кластера - пропускаем
-                        
-                        map[x][y].SetType(t); 
+
+                        map[x][y].SetCellType(t);
                         if (t == Type.Star ||
                             rand.NextDouble() > RESOURCE_SPAWN_PROBABILITY ||
                             cellX == 0 && cellY == 0) continue;
@@ -130,12 +135,12 @@ namespace CosmosStrategy.Map
 
         private int DistanceBetweenСenters(Cluster clusterFst, int x, int y)
         {
-            return (int) Math.Floor(
+            return (int)Math.Floor(
                 Math.Sqrt(
                     Math.Pow(clusterFst.x - x, 2) + Math.Pow(clusterFst.y - y, 2)
                 )
             );
         }
     }
-    
+
 }

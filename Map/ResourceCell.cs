@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CosmosStrategy.Map
 {
@@ -7,18 +8,18 @@ namespace CosmosStrategy.Map
         private Resource resource;
         private int resourceAmount;
 
-        public ResourceCell(Group group, int x, int y, Resource resource, int resourceAmount) : 
+        public ResourceCell(Group group, int x, int y, Resource resource, int resourceAmount) :
             base(group, Type.Planetary, x, y)
         {
             this.resource = resource;
             this.resourceAmount = resourceAmount;
         }
 
-        public Tuple<Resource, int> GetResource()
+        public KeyValuePair<Resource, int> GetResource()
         {
-            return new Tuple<Resource, int> (resource, resourceAmount);
+            return new KeyValuePair<Resource, int>(resource, resourceAmount);
         }
-        
+
     }
 
     public enum Resource

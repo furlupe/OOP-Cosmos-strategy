@@ -4,7 +4,7 @@ namespace CosmosStrategy.Map
 {
     public interface IFieldCell : ICell
     {
-        void SetUnit(Unit unit);
+        void SetUnit(IUnit unit);
         void RemoveUnit();
         IUnit GetUnit();
     }

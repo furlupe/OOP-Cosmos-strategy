@@ -10,7 +10,7 @@ namespace CosmosStrategy.Units
         void TakeDamage(double damage);
         void Die();
 
-        List<List<bool>> GetMovePattern();
-        List<List<bool>> GetAttackPattern();
+        int[,] GetMovePattern();
+        int[,] GetAttackPattern();
     }
 }

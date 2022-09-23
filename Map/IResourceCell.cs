@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CosmosStrategy.Map
 {
     public interface IResourceCell : ICell
     {
-        Tuple<Resource, int> GetResource();
+        KeyValuePair<Resource, int> GetResource();
     }
 }

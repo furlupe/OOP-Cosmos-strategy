@@ -2,24 +2,24 @@
 {
     public class CellFactory : ICellFactory
     {
-        public IResourceCell CreateResourceCell(Group group, int y, int x, Resource resource, int resourceAmount)
+        public IResourceCell CreateResourceCell(Group group, int x, int y, Resource resource, int resourceAmount)
         {
             return new ResourceCell(
                 group,
-                y,
                 x,
+                y,
                 resource,
                 resourceAmount
             );
         }
 
-        public IFieldCell CreateFieldCell(Group group, Type type, int y, int x)
+        public IFieldCell CreateFieldCell(Group group, Type type, int x, int y)
         {
             return new FieldCell(
                 group,
                 type,
-                y,
-                x
+                x,
+                y
             );
         }
     }

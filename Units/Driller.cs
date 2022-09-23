@@ -10,15 +10,36 @@ namespace CosmosStrategy.Units
 {
     internal class Driller : Unit, IDriller
     {
-        private int _radius = 3;
-        public Driller(Group group) : base()
+        private int _range = 3;
+        private List<IResourceCell> nearbyResourceCells;
+        public Driller(IFieldCell cell, List<ICell> nearbyCells) : base(cell)
         {
+            attackPattern = null;
+            movePattern = null;
             health = 10;
+            nearbyResourceCells = (List<IResourceCell>)nearbyCells
+                        .Where(cell => cell is IResourceCell)
+                        .Select(cell => (IResourceCell)cell);
         }
 
-        public List<Tuple<Resource, int>> Drill()
+        public Dictionary<Resource, int> Drill()
         {
-            throw new NotImplementedException();
+            IDictionary<Resource, int> result = new Dictionary<Resource, int>();
+            foreach (var cell in nearbyResourceCells)
+            {
+                var r = cell.GetResource();
+                if (!result.ContainsKey(r.Key))
+                {
+                    result.Add(r.Key, 0);
+                }
+                result[r.Key] += r.Value;
+            }
+            return result as Dictionary<Resource, int>;
+        }
+
+        public int GetRange()
+        {
+            return _range;
         }
     }
 }

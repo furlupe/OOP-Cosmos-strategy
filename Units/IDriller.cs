@@ -6,6 +6,7 @@ namespace CosmosStrategy.Units
 {
     public interface IDriller : IUnit
     {
-        List<Tuple<Resource, int>> Drill();
+        Dictionary<Resource, int> Drill();
+        int GetRange();
     }
 }

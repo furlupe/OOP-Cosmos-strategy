@@ -5,10 +5,13 @@ namespace CosmosStrategy.Map
 {
     public interface ICell
     {
-        Type GetType();
-        void SetType(Type type);
+        Type GetCellType();
+        void SetCellType(Type type);
 
-        void SetGroup(Group group);
-        Group GetGroup();
+        void SetCellGroup(Group group);
+        Group GetCellGroup();
+
+        Tuple<int, int> GetCellCoords();
+
     }
 }

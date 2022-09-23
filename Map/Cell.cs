@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CosmosStrategy.Units;
+using System;
 
 namespace CosmosStrategy.Map
 {
@@ -16,24 +17,29 @@ namespace CosmosStrategy.Map
             this.y = y;
         }
 
-        public Type GetType()
+        public Type GetCellType()
         {
             return type;
         }
 
-        public void SetType(Type type)
+        public void SetCellType(Type type)
         {
             this.type = type;
         }
 
-        public void SetGroup(Group group)
+        public void SetCellGroup(Group group)
         {
             this.group = group;
         }
 
-        public Group GetGroup()
+        public Group GetCellGroup()
         {
             return group;
+        }
+
+        public Tuple<int, int> GetCellCoords()
+        {
+            return new Tuple<int, int>(x, y);
         }
     }
 

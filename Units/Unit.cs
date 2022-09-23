@@ -11,10 +11,13 @@ namespace CosmosStrategy.Units
         protected double damage;
         protected double health;
 
-        protected List<List<bool>> movePattern;
-        protected List<List<bool>> attackPattern;
+        protected int[,] movePattern;
+        protected int[,] attackPattern;
 
-        public Unit() { }
+        public Unit(IFieldCell cell)
+        {
+            currentCell = cell;
+        }
 
         public void Attack(IUnit target)
         {
@@ -38,12 +41,12 @@ namespace CosmosStrategy.Units
             currentCell.RemoveUnit();
         }
 
-        public List<List<bool>> GetMovePattern()
+        public int[,] GetMovePattern()
         {
             return movePattern;
         }
 
-        public List<List<bool>> GetAttackPattern()
+        public int[,] GetAttackPattern()
         {
             return attackPattern;
         }
