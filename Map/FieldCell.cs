@@ -12,7 +12,7 @@ namespace CosmosStrategy.Map
         {
         }
 
-        public void SetUnit(Unit unit)
+        public void SetUnit(IUnit unit)
         {
             _unit = unit;
         }
@@ -21,8 +21,9 @@ namespace CosmosStrategy.Map
         {
             SetUnit(null);
         }
-        public IUnit GetUnit() { 
-            return _unit; 
+        public IUnit GetUnit()
+        {
+            return _unit;
         }
     }
 }
