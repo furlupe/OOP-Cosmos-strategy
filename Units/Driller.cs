@@ -10,7 +10,7 @@ namespace CosmosStrategy.Units
 {
     internal class Driller : Unit, IDriller
     {
-        private int _range = 3;
+        private int range = 3;
         private List<IResourceCell> nearbyResourceCells;
         public Driller() : base()
         {
@@ -37,14 +37,22 @@ namespace CosmosStrategy.Units
 
         public int GetRange()
         {
-            return _range;
+            return range;
         }
 
-        public void AddResourceCell(IResourceCell cell)
+        public void GetResourceCellsFromRange(ref Map.Map map)
         {
-            if (!nearbyResourceCells.Contains(cell))
+            var (cx, cy) = currentCell.GetCellCoords();
+            for (var i = -range; i <= range; i++)
             {
-                nearbyResourceCells.Add(cell);
+                for (var j = -range; j <= range; j++)
+                {
+                    var c = map.GetCellAt(Math.Max(i + cx, 0), Math.Max(j + cy, 0));
+                    if (c is IResourceCell)
+                    {
+                        nearbyResourceCells.Add(c as IResourceCell);
+                    }
+                }
             }
         }
     }

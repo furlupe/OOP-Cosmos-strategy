@@ -97,19 +97,7 @@ namespace CosmosStrategy.Core
                     return;
                 }
                 var driller = unit as IDriller;
-                var range = driller.GetRange();
-                var (cx, cy) = _cell.GetCellCoords();
-                for (int i = -range; i <= range; i++)
-                {
-                    for (int j = -range; j <= range; j++)
-                    {
-                        var c = map.GetCellAt(Math.Max(i + cx, 0), Math.Max(j + cy, 0));
-                        if (c is IResourceCell)
-                        {
-                            driller.AddResourceCell(c as IResourceCell);
-                        }
-                    }
-                }
+                driller.GetResourceCellsFromRange(ref map);
                 drillers.Add(driller);
             }
             SpendResources(id);
@@ -117,34 +105,32 @@ namespace CosmosStrategy.Core
         public void ShowPattern(int x, int y, bool isAttack)
         {
             var cell = map.GetCellAt(x, y);
+            
             if (!(cell is IFieldCell))
             {
-                Console.WriteLine("not a field cell");
+                Printer.PrintError($"cell {x},{y} is not a field!");
                 return;
             }
-            IFieldCell _cell = cell as IFieldCell;
+            
+            var _cell = cell as IFieldCell;
             var unit = _cell.GetUnit();
+            
             if (unit == null)
             {
-                Console.WriteLine("no unit on the cell");
+                Printer.PrintError($"no unit on cell {x},{y}!");
                 return;
             }
-            selectedUnit = unit;
-            var pattern = isAttack ? unit.GetAttackPattern() : unit.GetMovePattern();
-            for (int i = -3; i <= 3; i++)
-            {
-                for (int j = -3; j <= 3; j++)
-                {
-                    if (pattern[i + 3, j + 3] != 1)
-                    {
-                        continue;
-                    }
-                    var (cx, cy) = _cell.GetCellCoords();
-                    Console.WriteLine($"{cx + i} {cy + j}");
-                }
-            }
+            
+            selectedUnit = _cell.GetUnit();
+
+            Printer.ShowPattern(_cell, isAttack);
         }
 
+        public void ShowMap()
+        {
+            Printer.PrintMap(ref map);
+        }
+        
         public void AttackSelected(int targetX, int targetY)
         {
             var targetCell = (map.GetCellAt(targetX, targetY) as FieldCell);
@@ -156,35 +142,6 @@ namespace CosmosStrategy.Core
             var destCell = (map.GetCellAt(destX, destX) as FieldCell);
             selectedUnit.Move(destCell);
             selectedUnit = null;
-        }
-
-        public void PrintMap()
-        {
-            var (w, h) = map.GetMapSize();
-            for (int x = 0; x < w; x++)
-            {
-                for (int y = 0; y < h; y++)
-                {
-                    char s;
-                    switch (map.GetCellAt(x, y).GetCellType())
-                    {
-                        case Type.Planetary:
-                            s = '@';
-                            break;
-                        case Type.Star:
-                            s = '*';
-                            break;
-                        case Type.Space:
-                            s = ' ';
-                            break;
-                        default:
-                            s = ' ';
-                            break;
-                    }
-                    Console.Write(s + "   ");
-                }
-                Console.Write('\n');
-            }
         }
 
         private void SpendResources(int id)

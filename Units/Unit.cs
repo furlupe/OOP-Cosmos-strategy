@@ -7,7 +7,7 @@ namespace CosmosStrategy.Units
 {
     public abstract class Unit : IUnit
     {
-        private IFieldCell currentCell;
+        protected IFieldCell currentCell;
         protected double damage;
         protected double health;
 

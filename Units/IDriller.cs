@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Resource = CosmosStrategy.Map.Resource;
 using CosmosStrategy.Map;
 
 namespace CosmosStrategy.Units
@@ -8,6 +9,6 @@ namespace CosmosStrategy.Units
     {
         Dictionary<Resource, int> Drill();
         int GetRange();
-        void AddResourceCell(IResourceCell cell);
+        void GetResourceCellsFromRange(ref Map.Map map);
     }
 }

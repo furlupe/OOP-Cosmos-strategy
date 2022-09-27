@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CosmosStrategy.Map
 {
-    internal class Map
+    public class Map
     {
         private readonly int width;
         private readonly int height;

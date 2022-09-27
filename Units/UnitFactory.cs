@@ -19,19 +19,14 @@ namespace CosmosStrategy.Units
         //Передается только юнит, который может быть поставлен на свою клетку
         public IUnit CreateUnit(int id)
         {
-            switch (id)
+            return id switch
             {
-                case 0:
-                    return new Driller();
-                case 1:
-                    return new Gunner();
-                case 2:
-                    return new Swordsman();
-                case 3:
-                    return new Turret();
-                default:
-                    throw new Exception("Incorrect Unit ID");
-            }
+                0 => new Driller(),
+                1 => new Gunner(),
+                2 => new Swordsman(),
+                3 => new Turret(),
+                _ => throw new Exception("Incorrect Unit ID")
+            };
         }
     }
 }
